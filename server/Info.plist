@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Vantage</string>
+    <key>CFBundleDisplayName</key>
+    <string>Vantage</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.karim.vantage</string>
+    <key>CFBundleExecutable</key>
+    <string>vantage</string>
+    <key>CFBundleVersion</key>
+    <string>0.1.0</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleIconFile</key>
+    <string>icon</string>
+
+    <!-- The board lives in the browser, so there is nothing to show in the Dock. -->
+    <key>LSUIElement</key>
+    <true/>
+
+    <!-- TCC reads these before it will prompt. With no bundle to hold them macOS
+         denies Calendar and Mail outright instead of asking. -->
+    <key>NSCalendarsFullAccessUsageDescription</key>
+    <string>Vantage reads today's events so it can show your schedule at a glance.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Vantage reads today's events so it can show your schedule at a glance.</string>
+    <key>NSAppleEventsUsageDescription</key>
+    <string>Vantage reads recent messages from Mail to surface what needs your attention.</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+</dict>
+</plist>

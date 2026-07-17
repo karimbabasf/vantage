@@ -1,0 +1,92 @@
+.flaprow {
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--flap-gap, 2px);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.flap-sep {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-mute);
+  padding: 0 0.04em;
+  font-weight: 400;
+}
+
+.flap {
+  --w: var(--flap-w, 0.66em);
+  --h: var(--flap-h, 1.12em);
+  position: relative;
+  display: inline-block;
+  width: var(--w);
+  height: var(--h);
+  line-height: var(--h);
+  color: var(--color-ink);
+  background: linear-gradient(180deg, var(--color-tile-hi), var(--color-tile));
+  border-radius: var(--radius-tile);
+  box-shadow: inset 0 1px 0 oklch(0.34 0.011 66 / 0.55), 0 1px 2px oklch(0 0 0 / 0.4);
+  overflow: hidden;
+  text-align: center;
+  perspective: 240px;
+}
+
+.flap-half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  text-align: center;
+}
+.flap-half > span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--h);
+  line-height: var(--h);
+}
+.flap-top {
+  top: 0;
+  border-bottom: 1px solid var(--color-seam);
+  background: linear-gradient(180deg, var(--color-tile-hi), oklch(0.245 0.009 66));
+}
+.flap-top > span { top: 0; }
+.flap-bottom {
+  bottom: 0;
+  background: linear-gradient(180deg, oklch(0.215 0.009 67), var(--color-tile));
+}
+.flap-bottom > span { bottom: 0; }
+
+.flap-seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 0.5px);
+  height: 1px;
+  background: var(--color-seam);
+  z-index: 6;
+}
+
+.flap-fold {
+  z-index: 5;
+  backface-visibility: hidden;
+}
+.flap-fold-top {
+  transform-origin: bottom center;
+  animation: flapDown 130ms var(--ease-flap) forwards;
+}
+.flap-fold-bottom {
+  transform-origin: top center;
+  transform: rotateX(90deg);
+  animation: flapUp 120ms var(--ease-flap) 130ms forwards;
+}
+@keyframes flapDown {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(-90deg); }
+}
+@keyframes flapUp {
+  from { transform: rotateX(90deg); }
+  to { transform: rotateX(0deg); }
+}

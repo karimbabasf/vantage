@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vantage-web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "port": 1420
+    },
+    {
+      "name": "vantage-dist",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["preview", "--port", "4173"],
+      "port": 4173
+    }
+  ]
+}
