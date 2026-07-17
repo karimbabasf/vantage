@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
 import type { CalendarEvent, IgStats, MailItem, PermissionStatus, Settings } from "./types";
 import { DEFAULT_SETTINGS } from "./types";
 import { data, type MailAction } from "./data";
@@ -47,6 +47,23 @@ interface VState {
   disconnectIg: () => Promise<void>;
   setSettings: (patch: Partial<Settings>) => void;
 }
+
+// persist writes on every state change, and the clock ticks this store once a second.
+// Settings almost never change, so drop the write when the bytes are identical: without
+// this the board rewrites the same localStorage entry ~86k times a day, and any external
+// edit to the entry gets clobbered by the next tick.
+const dedupedStorage = (): StateStorage => {
+  let last: string | null = null;
+  return {
+    getItem: (name) => localStorage.getItem(name),
+    setItem: (name, value) => {
+      if (value === last) return;
+      last = value;
+      localStorage.setItem(name, value);
+    },
+    removeItem: (name) => localStorage.removeItem(name),
+  };
+};
 
 // Preferences only. igConnected and anthropicKeySet are server-side truth; caching those
 // in the browser would let the board claim a connection the server does not actually have.
@@ -202,6 +219,7 @@ export const useStore = create<VState>()(
     {
       name: "vantage.settings",
       version: 1,
+      storage: createJSONStorage(dedupedStorage),
       partialize: (s) => ({ settings: prefs(s.settings) }),
       // Persisted settings are a subset, so merge them onto the defaults rather than
       // letting zustand's shallow merge replace the whole settings object.
